@@ -40,13 +40,15 @@ Características:
 
 Modificar los siguientes archivos:
 
-Se necesita **tener una cuenta en MongoDB** (por ejemplo: en MongoDB Atlas), crear un Clúster y modificar `spring.data.mongodb.uri` en [application.properties](src/main/resources/application.properties)
+Se necesita **tener una cuenta en MongoDB** (por ejemplo: en MongoDB Atlas), crear un Clúster y modificar `spring.data.mongodb.uri` en [application.properties](spring-boot-webflux-apirest/src/main/resources/application.properties)
 
 ## Testeo
 
 Ejecutar `spring-boot-webflux-eureka-server`, `spring-boot-webflux-client` y `spring-boot-webflux-apirest`
 
 ## Endpoints
+
+Desde http://localhost:8090 (spring-boot-webflux-client)
 
 - **GET /api/client**
   - **Descripción:** Obtiene un listado de todos los productos.
@@ -66,7 +68,7 @@ Ejecutar `spring-boot-webflux-eureka-server`, `spring-boot-webflux-client` y `sp
 - **POST /api/client**
   - **Descripción:** Permite crear un nuevo producto.
   - **Cuerpo de la solicitud:**
-    - `{ "nombre": "Nombre del producto", "precio": "Precio del producto", "createAt": "Fecha de creación" }`
+    - `{ "nombre": "Nombre del producto", "precio": "Precio del producto", "categoria": { "id": ID de la categoría, "nombre": nombre de la categoría asociada al ID } }`
   - **Precondiciones:**
     - El campo `nombre` no debe estar vacío.
   - **Respuesta:**
@@ -79,7 +81,7 @@ Ejecutar `spring-boot-webflux-eureka-server`, `spring-boot-webflux-client` y `sp
   - **Parámetros de ruta:**
     - `id` - ID del producto a actualizar.
   - **Cuerpo de la solicitud:**
-    - `{ "nombre": "Nombre actualizado", "precio": "Precio actualizado", "createAt": "Fecha de creación" }`
+    - `{ "nombre": "Nombre actualizado", "precio": "Precio actualizado", "categoria": { "id": ID de la categoría, "nombre": nombre de la categoría asociada al ID } }`
   - **Precondiciones:**
     - El campo `nombre` no debe estar vacío.
   - **Respuesta:**
@@ -94,12 +96,12 @@ Ejecutar `spring-boot-webflux-eureka-server`, `spring-boot-webflux-client` y `sp
     - Estado 204 No Content si el producto se elimina exitosamente.
     - Estado 404 Not Found si el producto no se encuentra.
 
-- **POST /api/client/{id}/upload**
+- **POST /api/client/upload/{id}**
   - **Descripción:** Permite subir un archivo y asociarlo a un producto existente.
   - **Parámetros de ruta:**
     - `id` - ID del producto al que se asociará el archivo.
   - **Cuerpo de la solicitud:**
-    - Archivo (multipart/form-data)
+    - Archivo: En form-data, la key debe llamarse 'file' de tipo File, pasar Value imagen
   - **Respuesta:**
     - Estado 201 Created si el archivo se sube y asocia exitosamente.
     - Estado 404 Not Found si el producto no se encuentra.
